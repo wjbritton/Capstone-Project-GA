@@ -6,7 +6,6 @@ let alarmTime
 let d
 let hours, minutes, year, day, month
 let currentTime = hours + ':' + minutes + ' ' + year + '-' + month + '-' + day
-
 // On Load set click handler for alarm input
 $(() => {
   setAPIOrigin(location, config)
@@ -48,11 +47,20 @@ setInterval(function checkForAlarm () {
 
   // check current time with alarm time
   if (currentTime === alarmTime) {
-    alert('success')
+    success()
   } else {
     console.log('sorry')
   }
 }, 1000)
+
+function success () {
+  // const audio = new Audio('audio_file.mp3')
+  // audio.play()
+  console.log('Alert')
+  alert('Wake Up')
+}
+
+$('#test').on('click', success)
 // use require with a reference to bundle the file and use it in this file
 // const example = require('./example')
 

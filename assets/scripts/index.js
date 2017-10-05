@@ -13,7 +13,8 @@ let temp
 let lat
 let long
 let odd
-
+let date
+let time
 
 // C / F Toggle
 function toggleTF () {
@@ -36,6 +37,7 @@ function tempCheck () {
 // Change Temp Types
 
 $('#tempType').on('click', toggleTF)
+$('#test').on('click', success)
 
 const x = document.getElementById('LogLat')
 
@@ -50,7 +52,6 @@ function getLocation () {
 function tempature (temp) {
   console.log(temp)
   JSON.stringify(temp)
-  console.log(temp)
   C = temp.toFixed(0)
   F = (temp * 1.8 + 32).toFixed(0)
 }
@@ -95,15 +96,6 @@ setInterval(function () {
   }
 }, 5000)
 
-// Alarm Success voiceMessage
-
-function success () {
-  let voiceMessage = 'Good  morning  Will  its' + F + '  degrees  fahrenheit'
-  tempCheck()
-  let msg = new SpeechSynthesisUtterance(voiceMessage)
-  window.speechSynthesis.speak(msg)
-}
-
 // check every second for matching alarm time
 setInterval(function checkForAlarm () {
   d = new Date()
@@ -130,7 +122,9 @@ setInterval(function checkForAlarm () {
 
   // Update currentTime
   currentTime = hours + ':' + minutes + ' ' + year + '-' + month + '-' + day
-
+  date = year + '-' + month + '-' + day
+  time = hours + ':' + minutes
+  console.log(currentTime + ' | ' + alarmTime)
   // check current time with alarm time
   if (currentTime === alarmTime) {
     success()
@@ -138,6 +132,21 @@ setInterval(function checkForAlarm () {
     console.log('sorry')
   }
 }, 1000)
+
+// Alarm Success voiceMessage
+
+function success () {
+  let voiceMessage = 'Good  morning  Will  it is ' + time + ' todays date is' + date + ' and its ' + F + '  degrees  fahrenheit outside,  Have a great Day'
+  tempCheck()
+  let msg = new SpeechSynthesisUtterance(voiceMessage)
+  window.speechSynthesis.speak(msg)
+}
+
+// console.log(currentTime.split(':'))
+
+// 18:53 2017-09-04
+
+//
 
 // use require with a reference to bundle the file and use it in this file
 // const example = require('./example')

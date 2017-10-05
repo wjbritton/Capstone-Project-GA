@@ -83,7 +83,7 @@ $(() => {
     console.log(time + ' ' + date)
     alarmTime = time + ' ' + date
     console.log(alarmTime)
-    $('#alarm').html(alarmTime)
+    $('#alarm').append('<li>' + alarmTime + '&nbsp;&nbsp;<button>Delete</button>&nbsp;&nbsp;<button>Edit</button></li><br>')
   })
 })
 
@@ -140,6 +140,9 @@ function success () {
   tempCheck()
   let msg = new SpeechSynthesisUtterance(voiceMessage)
   window.speechSynthesis.speak(msg)
+  setTimeout(function () {
+    window.speechSynthesis.cancel(msg)
+  }, 30000)
 }
 
 // console.log(currentTime.split(':'))

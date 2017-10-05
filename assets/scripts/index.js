@@ -7,14 +7,16 @@ let d
 let hours, minutes, year, day, month
 let currentTime = hours + ':' + minutes + ' ' + year + '-' + month + '-' + day
 // Weather API
-let count = 0
-let C, F
+let count = 1
+let C, F, CF
 let temp
 let lat
 let long
 let odd
 let date
 let time
+let celOrFer
+let alarmArr = []
 
 // C / F Toggle
 function toggleTF () {
@@ -82,7 +84,22 @@ $(() => {
     let date = document.getElementById('dateInput').value
     console.log(time + ' ' + date)
     alarmTime = time + ' ' + date
-    console.log(alarmTime)
+    // alarmArr.push(
+    //   {
+    //     alarmTime: time,
+    //     alarmDate: date
+    //   }
+    // )
+    // alarmArr.sort()
+    let arrTime = hours + ':' + minutes
+    let arrDate = year + '-' + month + '-' + day
+    // for (let i = 0; i < alarmArr.length; i++) {
+    //   if (alarmArr[i].alarmTime < arrTime && alarmArr[i].alarmDate < arrDate) {
+    //     alarmArr.shift()
+    //     console.log(alarmArr)
+    //   }
+    // }
+    // console.log(alarmTime)
     $('#alarm').append('<li>' + alarmTime + '&nbsp;&nbsp;<button>Delete</button>&nbsp;&nbsp;<button>Edit</button></li><br>')
   })
 })
@@ -90,8 +107,14 @@ $(() => {
 // Temp update
 setInterval(function () {
   if (odd === 0) {
+    tempCheck()
+    CF = F
+    celOrFer = 'Fahrenheit'
     console.log(F)
   } else {
+    tempCheck()
+    CF = C
+    celOrFer = 'Celsius'
     console.log(C)
   }
 }, 5000)
@@ -122,7 +145,7 @@ setInterval(function checkForAlarm () {
 
   // Update currentTime
   currentTime = hours + ':' + minutes + ' ' + year + '-' + month + '-' + day
-  date = year + '-' + month + '-' + day
+  date = day + '/' + month + '/' + year
   time = hours + ':' + minutes
   console.log(currentTime + ' | ' + alarmTime)
   // check current time with alarm time
@@ -136,13 +159,13 @@ setInterval(function checkForAlarm () {
 // Alarm Success voiceMessage
 
 function success () {
-  let voiceMessage = 'Good  morning  Will  it is ' + time + ' todays date is' + date + ' and its ' + F + '  degrees  fahrenheit outside,  Have a great Day'
+  let voiceMessage = 'Good  morning  Will  it is ' + time + ' todays date is' + date + ' and its ' + CF + '  degrees' + celOrFer + 'outside,  Have a great Day'
   tempCheck()
   let msg = new SpeechSynthesisUtterance(voiceMessage)
   window.speechSynthesis.speak(msg)
   setTimeout(function () {
     window.speechSynthesis.cancel(msg)
-  }, 30000)
+  }, 60000)
 }
 
 // console.log(currentTime.split(':'))

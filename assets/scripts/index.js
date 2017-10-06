@@ -39,7 +39,6 @@ function tempCheck () {
 // Change Temp Types
 
 $('#tempType').on('click', toggleTF)
-$('#test').on('click', success)
 
 const x = document.getElementById('LogLat')
 
@@ -100,6 +99,7 @@ $(() => {
     //   }
     // }
     // console.log(alarmTime)
+    tempCheck()
     $('#alarm').append('<li>' + date + ' ' + time + '&nbsp;&nbsp;<button>Delete</button>&nbsp;&nbsp;<button>Edit</button></li><br>')
   })
 })
@@ -117,7 +117,7 @@ setInterval(function () {
     celOrFer = 'Celsius'
     console.log(C)
   }
-}, 300000)
+}, 50000)
 
 // check every second for matching alarm time
 setInterval(function checkForAlarm () {

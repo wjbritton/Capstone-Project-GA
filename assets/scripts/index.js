@@ -16,7 +16,8 @@ let odd
 let date
 let time
 let celOrFer
-let alarmArr = []
+let weather
+// let alarmArr = []
 
 // C / F Toggle
 function toggleTF () {
@@ -69,7 +70,8 @@ function showPosition (position) {
     type: 'GET',
     success: function (response) {
       temp = response.main.temp
-      console.log(temp)
+      weather = response.weather.description
+      console.log(weather)
       tempature(temp)
     }
   })
@@ -117,7 +119,7 @@ setInterval(function () {
     celOrFer = 'Celsius'
     console.log(C)
   }
-}, 50000)
+}, 2000)
 
 // check every second for matching alarm time
 setInterval(function checkForAlarm () {
@@ -154,6 +156,10 @@ setInterval(function checkForAlarm () {
   } else {
     console.log('sorry')
   }
+  // show lat long
+  $('#lat').html(lat)
+  $('#long').html(long)
+  // console.log('$$$  ' + typeof weather)
 }, 1000)
 
 // Alarm Success voiceMessage

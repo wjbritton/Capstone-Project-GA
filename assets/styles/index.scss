@@ -1,2 +1,40 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+$light-blue: #add8e6;
+$white: #fff;
+
+h1 {
+  font-family: impact;
+  font-size: 64px;
+  padding: 1em 0;
+}
+
+body {
+  text-align: center;
+}
+
+input {
+  border-radius: 50%;
+  margin: 2em;
+  padding: .5em 1.5em;
+}
+
+li {
+  font-size: 32px;
+}
+
+.comic {
+  font-family: 'Comic Sans';
+  font-size: 50px;
+}
+
+.header {
+  background-color: $light-blue;
+  padding: 1em;
+}
+
+.body {
+  background-color: $white;
+  padding: 4em;
+}

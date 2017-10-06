@@ -11,23 +11,30 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body class="container-fluid">
-      <div>
+      <div class="header" id="header">
         <h1>Smart Rooster</h1>
         <p id="time"></p>
       </div>
+      <div class="body">
         <input id="timeInput" type="time">
         <input id="dateInput" type="date">
         <input id="submitInput" type="submit">
-        <div>
-          <p>Set Wake Up Time<br></p>
+        <div class="header">
+          <p>Alarms</p>
+          <br>
           <ul id="alarm">
           </ul>
       </div>
          <div id="weatherData">
-             <p id="temp"></p>
+           <h2>Tempature</h2>
+             <p id="temp" class="comic"></p>
              <button id="tempType"><span id="FC">C</span></button>
-             <p id="weatherType">Sunny</p>
-             <p id="LogLat"></p>
+             <p id="weatherType" class="comic"></p>
+             <h2>Latitude</h2>
+             <p id="lat" class="comic"></p>
+             <br>
+             <h2>Longitude</h2>
+             <p id="log" class="comic"></p>
            </div>
     </body>
 </html>

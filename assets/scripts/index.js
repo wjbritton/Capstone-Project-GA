@@ -17,7 +17,7 @@ let date
 let time
 let celOrFer
 let weather
-// let alarmArr = []
+let alarmArr = []
 
 // C / F Toggle
 function toggleTF () {
@@ -70,7 +70,8 @@ function showPosition (position) {
     type: 'GET',
     success: function (response) {
       temp = response.main.temp
-      weather = response.weather.description
+      weather = response.weather[0].description
+      $('#weatherType').html(weather)
       console.log(weather)
       tempature(temp)
     }
@@ -110,16 +111,18 @@ $(() => {
 setInterval(function () {
   if (odd === 0) {
     tempCheck()
+    $('#weatherType').html(weather)
     CF = F
     celOrFer = 'Fahrenheit'
     console.log(F)
   } else {
     tempCheck()
+    $('#weatherType').html(weather)
     CF = C
     celOrFer = 'Celsius'
     console.log(C)
   }
-}, 2000)
+}, 1000)
 
 // check every second for matching alarm time
 setInterval(function checkForAlarm () {
@@ -144,6 +147,9 @@ setInterval(function checkForAlarm () {
   if (month < 10) {
     month = '0' + month
   }
+  if (hours < 10) {
+    hours = '0' + hours
+  }
 
   // Update currentTime
   currentTime = hours + ':' + minutes + ' ' + year + '-' + month + '-' + day
@@ -157,9 +163,8 @@ setInterval(function checkForAlarm () {
     console.log('sorry')
   }
   // show lat long
-  $('#lat').html(lat)
-  $('#long').html(long)
-  // console.log('$$$  ' + typeof weather)
+  $('#LogLat').html('Latitude ' + lat + ' ' + 'Longitude ' + long)
+  console.log(weather)
 }, 1000)
 
 // Alarm Success voiceMessage
@@ -170,7 +175,7 @@ function success () {
   window.speechSynthesis.speak(msg)
   setTimeout(function () {
     window.speechSynthesis.cancel(msg)
-  }, 45000)
+  }, 40000)
 }
 
 // console.log(currentTime.split(':'))

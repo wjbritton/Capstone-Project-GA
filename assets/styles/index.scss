@@ -7,7 +7,7 @@ $white: #fff;
 h1 {
   font-family: impact;
   font-size: 64px;
-  padding: 1em 0;
+  padding: .5em 0;
 }
 
 body {
@@ -16,17 +16,18 @@ body {
 
 input {
   border-radius: 50%;
-  margin: 2em;
-  padding: .5em 1.5em;
+  margin: 1em;
+  padding: .5em 1em;
 }
 
 li {
-  font-size: 32px;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 .comic {
   font-family: 'Comic Sans';
-  font-size: 50px;
+  font-size: 25px;
 }
 
 .header {
@@ -36,5 +37,5 @@ li {
 
 .body {
   background-color: $white;
-  padding: 4em;
+  padding: 2em;
 }

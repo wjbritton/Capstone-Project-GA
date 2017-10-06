@@ -100,7 +100,7 @@ $(() => {
     //   }
     // }
     // console.log(alarmTime)
-    $('#alarm').append('<li>' + alarmTime + '&nbsp;&nbsp;<button>Delete</button>&nbsp;&nbsp;<button>Edit</button></li><br>')
+    $('#alarm').append('<li>' + date + ' ' + time + '&nbsp;&nbsp;<button>Delete</button>&nbsp;&nbsp;<button>Edit</button></li><br>')
   })
 })
 
@@ -117,7 +117,7 @@ setInterval(function () {
     celOrFer = 'Celsius'
     console.log(C)
   }
-}, 5000)
+}, 300000)
 
 // check every second for matching alarm time
 setInterval(function checkForAlarm () {
@@ -160,12 +160,11 @@ setInterval(function checkForAlarm () {
 
 function success () {
   let voiceMessage = 'Good  morning  Will  it is ' + time + ' todays date is' + date + ' and its ' + CF + '  degrees' + celOrFer + 'outside,  Have a great Day'
-  tempCheck()
   let msg = new SpeechSynthesisUtterance(voiceMessage)
   window.speechSynthesis.speak(msg)
   setTimeout(function () {
     window.speechSynthesis.cancel(msg)
-  }, 60000)
+  }, 45000)
 }
 
 // console.log(currentTime.split(':'))

@@ -18,6 +18,8 @@ let time
 let celOrFer
 let weather
 let alarmArr = []
+let timeForm
+let amPm
 
 // C / F Toggle
 function toggleTF () {
@@ -84,15 +86,32 @@ $(() => {
   $('#submitInput').on('click', function () {
     let time = document.getElementById('timeInput').value
     let date = document.getElementById('dateInput').value
-    console.log(time + ' ' + date)
+    timeForm = time
+    timeForm = timeForm.split(':')
+    console.log('SPLIT ' + timeForm[0] + ' ' + timeForm)
+    let timeForm1 = parseInt(timeForm[0])
+    console.log(timeForm1 + ' | ' + typeof timeForm1)
+    if (timeForm1 > 12) {
+      amPm = 'PM'
+      timeForm1 = timeForm1 - 12
+      console.log('successful convertion ' + timeForm1)
+    } else {
+      amPm = 'AM'
+    }
+    timeForm[0] = timeForm1
+    timeForm = timeForm.join(':')
     alarmTime = time + ' ' + date
-    // alarmArr.push(
-    //   {
-    //     alarmTime: time,
-    //     alarmDate: date
-    //   }
-    // )
-    // alarmArr.sort()
+    alarmArr.push(
+      {
+        alarmTime: time,
+        alarmDate: date
+      }
+    )
+    console.log(alarmArr)
+    // Sort Array
+
+    // if time and date have passed then .pop
+
     let arrTime = hours + ':' + minutes
     let arrDate = year + '-' + month + '-' + day
     // for (let i = 0; i < alarmArr.length; i++) {
@@ -103,7 +122,7 @@ $(() => {
     // }
     // console.log(alarmTime)
     tempCheck()
-    $('#alarm').append('<li>' + date + ' ' + time + '&nbsp;&nbsp;<button>Delete</button>&nbsp;&nbsp;<button>Edit</button></li><br>')
+    $('#alarm').append('<li>' + date + ' ' + timeForm + '  ' + amPm + '&nbsp;&nbsp;<button>Delete</button>&nbsp;&nbsp;<button>Edit</button></li><br>')
   })
 })
 
@@ -170,13 +189,15 @@ setInterval(function checkForAlarm () {
 // Alarm Success voiceMessage
 
 function success () {
-  let voiceMessage = 'Good  morning  Will  it is ' + time + ' todays date is' + date + ' and its ' + CF + '  degrees' + celOrFer + 'outside,  Have a great Day'
+  let voiceMessage = 'Good  morning  Will  it is ' + timeForm + ' ' + amPm + ' todays date is' + date + ' and its ' + CF + '  degrees' + celOrFer + 'and' + weather + 'outside,  Have a great Day'
   let msg = new SpeechSynthesisUtterance(voiceMessage)
   window.speechSynthesis.speak(msg)
   setTimeout(function () {
     window.speechSynthesis.cancel(msg)
   }, 40000)
 }
+
+$('#test').on('click', success)
 
 // console.log(currentTime.split(':'))
 

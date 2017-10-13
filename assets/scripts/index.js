@@ -1,6 +1,4 @@
 'use strict'
-
-
 // TODOS
 
 // Delete Alarms Manually from Arr and UI
@@ -138,7 +136,12 @@ $(() => {
     // }
     // console.log(alarmTime)
     tempCheck()
-    $('#alarm').append('<li>' + date + ' ' + timeForm + '  ' + amPm + '&nbsp;&nbsp;<button id="delteAlarm' + countAlarms + '">Delete</button>&nbsp;&nbsp;<button id="editAlarm"'+ countAlarms +'>Edit</button></li><br>')
+    $('#alarm').append('<li>' + date + ' ' + timeForm + '  ' + amPm + '&nbsp;&nbsp;<button id="deleteAlarm' + countAlarms + '">Delete</button>&nbsp;&nbsp;<button id="editAlarm' + countAlarms + '">Edit</button></li><br>')
+    $('#deleteAlarm' + countAlarms).bind('click', function () {
+      alarmArr.shift()
+      $('#deleteAlarm' + countAlarms).parent().remove()
+    })
+    // $('editAlarm' + countAlarms ).on('click', )
   })
 })
 
@@ -213,10 +216,6 @@ function success () {
   setTimeout(function () {
     window.speechSynthesis.cancel(msg)
   }, 30000)
-}
-
-function deleteAlarm () {
-  alarmArr.shift()
 }
 
 $('#test').on('click', success)

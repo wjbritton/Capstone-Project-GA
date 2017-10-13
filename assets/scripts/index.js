@@ -7,7 +7,9 @@
 // Delete Expired Alarms from Arr and UI
 // POST Alarms AJAX
 // DELETE Alarms AJAX
-// GET Alarms
+// GET Alarms AJAX
+// USER CRUD AJAX
+// USER UI CRUD
 
 const setAPIOrigin = require('../../lib/set-api-origin')
 const config = require('./config')

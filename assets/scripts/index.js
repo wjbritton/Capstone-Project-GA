@@ -1,5 +1,14 @@
 'use strict'
 
+
+// TODOS
+
+// Delete Alarms Manually from Arr and UI
+// Delete Expired Alarms from Arr and UI
+// POST Alarms AJAX
+// DELETE Alarms AJAX
+// GET Alarms
+
 const setAPIOrigin = require('../../lib/set-api-origin')
 const config = require('./config')
 
@@ -181,7 +190,8 @@ setInterval(function checkForAlarm () {
   time = hours + ':' + minutes
   console.log(currentTime + ' | ' + alarmArr0Time + ' ' + alarmArr0Date)
   // check current time with alarm time
-  if (currentTime === alarmArr[0]) {
+  const alaramArr0 = alarmArr0Time + ' ' + alarmArr0Date
+  if (currentTime === alaramArr0) {
     success()
   } else {
     console.log('sorry')

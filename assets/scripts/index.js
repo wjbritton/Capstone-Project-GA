@@ -2,6 +2,8 @@
 
 const setAPIOrigin = require('../../lib/set-api-origin')
 const config = require('./config')
+
+// Alarm Time
 let alarmTime
 let d
 let hours, minutes, year, day, month
@@ -20,6 +22,9 @@ let weather
 let alarmArr = []
 let timeForm
 let amPm
+let countAlarms = 0
+let alarmArr0Time
+let alarmArr0Date
 
 // C / F Toggle
 function toggleTF () {
@@ -59,7 +64,6 @@ function tempature (temp) {
   C = temp.toFixed(0)
   F = (temp * 1.8 + 32).toFixed(0)
 }
-// function btnClick() {}
 
 function showPosition (position) {
   lat = position.coords.latitude
@@ -84,6 +88,7 @@ getLocation()
 $(() => {
   setAPIOrigin(location, config)
   $('#submitInput').on('click', function () {
+    countAlarms++
     let time = document.getElementById('timeInput').value
     let date = document.getElementById('dateInput').value
     timeForm = time
@@ -109,11 +114,11 @@ $(() => {
     )
     console.log(alarmArr)
     // Sort Array
-
     // if time and date have passed then .pop
-
     let arrTime = hours + ':' + minutes
     let arrDate = year + '-' + month + '-' + day
+    alarmArr0Time = alarmArr[0].alarmTime
+    alarmArr0Date = alarmArr[0].alarmDate
     // for (let i = 0; i < alarmArr.length; i++) {
     //   if (alarmArr[i].alarmTime < arrTime && alarmArr[i].alarmDate < arrDate) {
     //     alarmArr.shift()
@@ -122,7 +127,7 @@ $(() => {
     // }
     // console.log(alarmTime)
     tempCheck()
-    $('#alarm').append('<li>' + date + ' ' + timeForm + '  ' + amPm + '&nbsp;&nbsp;<button>Delete</button>&nbsp;&nbsp;<button>Edit</button></li><br>')
+    $('#alarm').append('<li>' + date + ' ' + timeForm + '  ' + amPm + '&nbsp;&nbsp;<button id="delteAlarm' + countAlarms + '">Delete</button>&nbsp;&nbsp;<button id="editAlarm"'+ countAlarms +'>Edit</button></li><br>')
   })
 })
 
@@ -174,9 +179,9 @@ setInterval(function checkForAlarm () {
   currentTime = hours + ':' + minutes + ' ' + year + '-' + month + '-' + day
   date = day + '/' + month + '/' + year
   time = hours + ':' + minutes
-  console.log(currentTime + ' | ' + alarmTime)
+  console.log(currentTime + ' | ' + alarmArr0Time + ' ' + alarmArr0Date)
   // check current time with alarm time
-  if (currentTime === alarmTime) {
+  if (currentTime === alarmArr[0]) {
     success()
   } else {
     console.log('sorry')
@@ -192,9 +197,14 @@ function success () {
   let voiceMessage = 'Good  morning  Will  it is ' + timeForm + ' ' + amPm + ' todays date is' + date + ' and its ' + CF + '  degrees' + celOrFer + 'and' + weather + 'outside,  Have a great Day'
   let msg = new SpeechSynthesisUtterance(voiceMessage)
   window.speechSynthesis.speak(msg)
+  console.log(alarmArr)
   setTimeout(function () {
     window.speechSynthesis.cancel(msg)
-  }, 40000)
+  }, 30000)
+}
+
+function deleteAlarm () {
+  alarmArr.shift()
 }
 
 $('#test').on('click', success)

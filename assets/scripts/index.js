@@ -104,6 +104,8 @@ $(() => {
     countAlarms++
     let time = document.getElementById('timeInput').value
     let date = document.getElementById('dateInput').value
+    $('#timeInput').val('')
+    $('#dateInput').val('')
     timeForm = time
     timeForm = timeForm.split(':')
     // console.log('SPLIT ' + timeForm[0] + ' ' + timeForm)
@@ -207,24 +209,22 @@ setInterval(function checkForAlarm () {
   alarmArr.sort(function (a, b) {
     const dateA = new Date(a.alarmDate)
     const dateB = new Date(b.alarmDate)
-    return dateB - dateA
-  })
-  if (alarmArr.length > 1) {
-    for (let i = 0; i < alarmArr.length; i++) {
-      let j = 0
-      if ((i + 1) < alarmArr.length) {
-        j = i + 1
-      }
-      if (alarmArr[i].alarmDate === alarmArr[j].alarmDate) {
-        if (alarmArr[i].alarmTime > alarmArr[j].alarmTime) {
-          let b = alarmArr[i]
-          alarmArr[i] = alarmArr[j]
-          alarmArr[j] = b
-        }
-      }
-      console.log(alarmArr)
+    const date = dateA - dateB
+    if (date !== 0) {
+      return date
     }
-  }
+    alarmArr.sort(function (a, b) {
+      return b.alarmTime < a.alarmTime
+    })
+  })
+  // if (alarmArr.length > 1) {
+  //   for (let i = 0; i < alarmArr.length; i++) {
+  //     let j = 0
+  //     if ((i + 1) < alarmArr.length) {
+  //       j = i + 1
+  //     }
+  //   }
+  // }
 
   console.log('Sort ' + JSON.stringify(alarmArr))
   let alaramArr0 = alarmArr0Time + ' ' + alarmArr0Date

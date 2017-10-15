@@ -8,6 +8,7 @@
 // GET Alarms AJAX
 // USER CRUD AJAX
 // USER UI CRUD
+// Sort Array by date then time
 
 const setAPIOrigin = require('../../lib/set-api-origin')
 const config = require('./config')
@@ -42,17 +43,19 @@ function toggleTF () {
   odd = count % 2
   $('#FC').html(temp[odd])
 }
+
 // Temp Check
 function tempCheck () {
-  console.log(odd)
+  // console.log(odd)
   if (odd === 0) {
-    console.log(F)
+    // console.log(F)
     $('#temp').html(F + ' F')
   } else {
-    console.log(C)
+    // console.log(C)
     $('#temp').html(C + ' C')
   }
 }
+
 // Change Temp Types
 
 $('#tempType').on('click', toggleTF)
@@ -66,14 +69,15 @@ function getLocation () {
     x.innerHTML = 'Geolocation is not supported by this browser.'
   }
 }
-
+// Temp convertion
 function tempature (temp) {
-  console.log(temp)
+  // console.log(temp)
   JSON.stringify(temp)
   C = temp.toFixed(0)
   F = (temp * 1.8 + 32).toFixed(0)
 }
 
+// Get Long Lat and send AJAX get to weather API
 function showPosition (position) {
   lat = position.coords.latitude
   long = position.coords.longitude
@@ -87,7 +91,7 @@ function showPosition (position) {
       temp = response.main.temp
       weather = response.weather[0].description
       $('#weatherType').html(weather)
-      console.log(weather)
+      // console.log(weather)
       tempature(temp)
     }
   })
@@ -102,46 +106,45 @@ $(() => {
     let date = document.getElementById('dateInput').value
     timeForm = time
     timeForm = timeForm.split(':')
-    console.log('SPLIT ' + timeForm[0] + ' ' + timeForm)
+    // console.log('SPLIT ' + timeForm[0] + ' ' + timeForm)
     let timeForm1 = parseInt(timeForm[0])
-    console.log(timeForm1 + ' | ' + typeof timeForm1)
+    // console.log(timeForm1 + ' | ' + typeof timeForm1)
     if (timeForm1 > 12) {
       amPm = 'PM'
       timeForm1 = timeForm1 - 12
-      console.log('successful convertion ' + timeForm1)
+      // console.log('successful convertion ' + timeForm1)
     } else {
       amPm = 'AM'
     }
-    timeForm[0] = timeForm1
     timeForm = timeForm.join(':')
     alarmTime = time + ' ' + date
     alarmArr.push(
       {
         alarmTime: time,
-        alarmDate: date
+        alarmDate: date,
+        alarmNumber: countAlarms
       }
     )
-    console.log(alarmArr)
-    // Sort Array
-    // if time and date have passed then .pop
+    // console.log(alarmArr)
     let arrTime = hours + ':' + minutes
     let arrDate = year + '-' + month + '-' + day
     alarmArr0Time = alarmArr[0].alarmTime
     alarmArr0Date = alarmArr[0].alarmDate
-    // for (let i = 0; i < alarmArr.length; i++) {
-    //   if (alarmArr[i].alarmTime < arrTime && alarmArr[i].alarmDate < arrDate) {
-    //     alarmArr.shift()
-    //     console.log(alarmArr)
-    //   }
-    // }
-    // console.log(alarmTime)
     tempCheck()
-    $('#alarm').append('<li>' + date + ' ' + timeForm + '  ' + amPm + '&nbsp;&nbsp;<button id="deleteAlarm' + countAlarms + '">Delete</button>&nbsp;&nbsp;<button id="editAlarm' + countAlarms + '">Edit</button></li><br>')
+    $('#alarm').append('<li id="' + countAlarms + '">' + date + ' ' + timeForm + '  ' + amPm + '&nbsp;&nbsp;<button id="deleteAlarm' + countAlarms + '">Delete</button>&nbsp;&nbsp;<button id="editAlarm' + countAlarms + '">Edit</button></li>')
     $('#deleteAlarm' + countAlarms).bind('click', function () {
-      alarmArr.shift()
-      $('#deleteAlarm' + countAlarms).parent().remove()
+      let li = $(this).parent()
+      li.remove()
+      console.log(alarmArr[0])
+      for (let i = 0; i < alarmArr.length; i++) {
+        let index = alarmArr[i].alarmNumber.toString()
+        let target = li[0].id
+        if (index === target) {
+          alarmArr.splice(i, 1)
+          console.log('sliced ' + alarmArr)
+        }
+      }
     })
-    // $('editAlarm' + countAlarms ).on('click', )
   })
 })
 
@@ -152,13 +155,13 @@ setInterval(function () {
     $('#weatherType').html(weather)
     CF = F
     celOrFer = 'Fahrenheit'
-    console.log(F)
+    // console.log(F)
   } else {
     tempCheck()
     $('#weatherType').html(weather)
     CF = C
     celOrFer = 'Celsius'
-    console.log(C)
+    // console.log(C)
   }
 }, 1000)
 
@@ -195,15 +198,20 @@ setInterval(function checkForAlarm () {
   time = hours + ':' + minutes
   console.log(currentTime + ' | ' + alarmArr0Time + ' ' + alarmArr0Date)
   // check current time with alarm time
-  const alaramArr0 = alarmArr0Time + ' ' + alarmArr0Date
+  if (alarmArr.length > 0) {
+    alarmArr0Time = alarmArr[0].alarmTime
+    alarmArr0Date = alarmArr[0].alarmDate
+    console.log('TRUE' + ' T ' + alarmArr0Time + ' D ' + alarmArr0Date)
+  }
+  let alaramArr0 = alarmArr0Time + ' ' + alarmArr0Date
   if (currentTime === alaramArr0) {
     success()
   } else {
-    console.log('sorry')
+    // console.log('sorry')
   }
   // show lat long
   $('#LogLat').html('Latitude ' + lat + ' ' + 'Longitude ' + long)
-  console.log(weather)
+  // console.log(weather)
 }, 1000)
 
 // Alarm Success voiceMessage
@@ -212,7 +220,7 @@ function success () {
   let voiceMessage = 'Good  morning  Will  it is ' + timeForm + ' ' + amPm + ' todays date is' + date + ' and its ' + CF + '  degrees' + celOrFer + 'and' + weather + 'outside,  Have a great Day'
   let msg = new SpeechSynthesisUtterance(voiceMessage)
   window.speechSynthesis.speak(msg)
-  console.log(alarmArr)
+  // console.log(alarmArr)
   setTimeout(function () {
     window.speechSynthesis.cancel(msg)
   }, 30000)

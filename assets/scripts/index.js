@@ -203,6 +203,30 @@ setInterval(function checkForAlarm () {
     alarmArr0Date = alarmArr[0].alarmDate
     console.log('TRUE' + ' T ' + alarmArr0Time + ' D ' + alarmArr0Date)
   }
+
+  alarmArr.sort(function (a, b) {
+    const dateA = new Date(a.alarmDate)
+    const dateB = new Date(b.alarmDate)
+    return dateB - dateA
+  })
+  if (alarmArr.length > 1) {
+    for (let i = 0; i < alarmArr.length; i++) {
+      let j = 0
+      if ((i + 1) < alarmArr.length) {
+        j = i + 1
+      }
+      if (alarmArr[i].alarmDate === alarmArr[j].alarmDate) {
+        if (alarmArr[i].alarmTime > alarmArr[j].alarmTime) {
+          let b = alarmArr[i]
+          alarmArr[i] = alarmArr[j]
+          alarmArr[j] = b
+        }
+      }
+      console.log(alarmArr)
+    }
+  }
+
+  console.log('Sort ' + JSON.stringify(alarmArr))
   let alaramArr0 = alarmArr0Time + ' ' + alarmArr0Date
   if (currentTime === alaramArr0) {
     success()

@@ -33,8 +33,8 @@ let alarmArr = []
 let timeForm
 let amPm
 let countAlarms = 0
-let alarmArr0Time
-let alarmArr0Date
+let alarmArrTime
+let alarmArrDate
 
 // C / F Toggle
 function toggleTF () {
@@ -102,6 +102,7 @@ $(() => {
   setAPIOrigin(location, config)
   $('#submitInput').on('click', function () {
     countAlarms++
+    console.log(countAlarms)
     let time = document.getElementById('timeInput').value
     let date = document.getElementById('dateInput').value
     $('#timeInput').val('')
@@ -130,14 +131,16 @@ $(() => {
     // console.log(alarmArr)
     let arrTime = hours + ':' + minutes
     let arrDate = year + '-' + month + '-' + day
-    alarmArr0Time = alarmArr[0].alarmTime
-    alarmArr0Date = alarmArr[0].alarmDate
+    // for (let i = 0; i < alarmArr.length; i++) {
+    //   alarmArrTime = alarmArr[i].alarmTime
+    //   alarmArrDate = alarmArr[i].alarmDate
+    // }
+
     tempCheck()
     $('#alarm').append('<li id="' + countAlarms + '">' + date + ' ' + timeForm + '  ' + amPm + '&nbsp;&nbsp;<button id="deleteAlarm' + countAlarms + '">Delete</button>&nbsp;&nbsp;<button id="editAlarm' + countAlarms + '">Edit</button></li>')
     $('#deleteAlarm' + countAlarms).bind('click', function () {
       let li = $(this).parent()
       li.remove()
-      console.log(alarmArr[0])
       for (let i = 0; i < alarmArr.length; i++) {
         let index = alarmArr[i].alarmNumber.toString()
         let target = li[0].id
@@ -198,25 +201,32 @@ setInterval(function checkForAlarm () {
   currentTime = hours + ':' + minutes + ' ' + year + '-' + month + '-' + day
   date = day + '/' + month + '/' + year
   time = hours + ':' + minutes
-  console.log(currentTime + ' | ' + alarmArr0Time + ' ' + alarmArr0Date)
   // check current time with alarm time
   if (alarmArr.length > 0) {
-    alarmArr0Time = alarmArr[0].alarmTime
-    alarmArr0Date = alarmArr[0].alarmDate
-    console.log('TRUE' + ' T ' + alarmArr0Time + ' D ' + alarmArr0Date)
+    for (let i = 0; i < alarmArr.length; i++) {
+      alarmArrTime = alarmArr[i].alarmTime
+      alarmArrDate = alarmArr[i].alarmDate
+      const alaramArr = alarmArrTime + ' ' + alarmArrDate
+      if (currentTime === alaramArr) {
+        success()
+      } else {
+        // console.log('sorry')
+      }
+    }
+    console.log(currentTime + ' | ' + alarmArrTime + ' ' + alarmArrDate)
   }
 
-  alarmArr.sort(function (a, b) {
-    const dateA = new Date(a.alarmDate)
-    const dateB = new Date(b.alarmDate)
-    const date = dateA - dateB
-    if (date !== 0) {
-      return date
-    }
-    alarmArr.sort(function (a, b) {
-      return b.alarmTime < a.alarmTime
-    })
-  })
+  // alarmArr.sort(function (a, b) {
+  //   const dateA = new Date(a.alarmDate)
+  //   const dateB = new Date(b.alarmDate)
+  //   const date = dateA - dateB
+  //   if (date !== 0) {
+  //     return date
+  //   }
+  //   alarmArr.sort(function (a, b) {
+  //     return b.alarmTime < a.alarmTime
+  //   })
+  // })
   // if (alarmArr.length > 1) {
   //   for (let i = 0; i < alarmArr.length; i++) {
   //     let j = 0
@@ -227,12 +237,6 @@ setInterval(function checkForAlarm () {
   // }
 
   console.log('Sort ' + JSON.stringify(alarmArr))
-  let alaramArr0 = alarmArr0Time + ' ' + alarmArr0Date
-  if (currentTime === alaramArr0) {
-    success()
-  } else {
-    // console.log('sorry')
-  }
   // show lat long
   $('#LogLat').html('Latitude ' + lat + ' ' + 'Longitude ' + long)
   // console.log(weather)
@@ -241,7 +245,7 @@ setInterval(function checkForAlarm () {
 // Alarm Success voiceMessage
 
 function success () {
-  let voiceMessage = 'Good  morning  Will  it is ' + timeForm + ' ' + amPm + ' todays date is' + date + ' and its ' + CF + '  degrees' + celOrFer + 'and' + weather + 'outside,  Have a great Day'
+  let voiceMessage = 'Good  morning  it is ' + timeForm + ' ' + amPm + ' todays date is' + date + ' and its ' + CF + '  degrees' + celOrFer + 'and' + weather + 'outside,  Have a great Day'
   let msg = new SpeechSynthesisUtterance(voiceMessage)
   window.speechSynthesis.speak(msg)
   // console.log(alarmArr)

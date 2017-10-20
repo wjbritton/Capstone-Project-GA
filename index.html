@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>Example</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      <!-- Do not add `link` tags-->
+      <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+      <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+      <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+    </head>
+    <body class="container-fluid">
+      <div class="header" id="header">
+        <h1>Smart Sunrise</h1>
+        <p id="time"></p>
+      </div>
+      <div class="body">
+        <input id="timeInput" type="time">
+        <input id="dateInput" type="date">
+        <input id="submitInput" type="submit">
+        <div class="header">
+          <p>Alarms</p>
+          <br>
+          <ul id="alarm">
+          </ul>
+      </div>
+         <div id="weatherData">
+           <h2>Tempature</h2>
+           <button id="tempType"><span id="FC">C</span></button>
+             <p id="temp" class="comic"></p>
+             <p id="weatherType" class="comic"></p>
+             <p id="LogLat" class="comic"></p>
+             <button id="test">Success</button>
+           </div>
+    </body>
+</html>
